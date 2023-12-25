@@ -1,0 +1,458 @@
+{%extends 'base.html'%}
+{%load static%}
+{%block konten%}
+<div id="content">
+
+    <!-- Topbar -->
+    <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+
+        <!-- Sidebar Toggle (Topbar) -->
+        <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+            <i class="fa fa-bars"></i>
+        </button>
+
+        <!-- Topbar Search -->
+        <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+            <div class="input-group">
+                <input type="text" name="cari" class="form-control bg-light border-0 small"
+                    placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2"
+                    value="{{ search_query }}">
+                <div class="input-group-append">
+                    <button class="btn btn-primary" type="submit">
+                        <i class="fas fa-search fa-sm"></i>
+                    </button>
+                </div>
+            </div>
+        </form>
+
+        <!-- Topbar Navbar -->
+        <ul class="navbar-nav ml-auto">
+
+            <!-- Nav Item - Search Dropdown (Visible Only XS) -->
+            <li class="nav-item dropdown no-arrow d-sm-none">
+                <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-search fa-fw"></i>
+                </a>
+                <!-- Dropdown - Messages -->
+                <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in"
+                    aria-labelledby="searchDropdown">
+                    <form class="form-inline mr-auto w-100 navbar-search">
+                        <div class="input-group">
+                            <input type="text" class="form-control bg-light border-0 small"
+                                placeholder="Search for..." aria-label="Search"
+                                aria-describedby="basic-addon2">
+                            <div class="input-group-append">
+                                <button class="btn btn-primary" type="button">
+                                    <i class="fas fa-search fa-sm"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </li>
+
+            <li class="nav-item dropdown no-arrow mx-1">
+                            <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-bell fa-fw"></i>
+                                <!-- Counter - Alerts -->
+                                <span class="badge badge-danger badge-counter" >{{notif}}</span>
+                            </a>
+                            <!-- Dropdown - Alerts -->
+                            <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                aria-labelledby="alertsDropdown">
+                                <h6 class="dropdown-header">
+                                    Notifikasi
+                                </h6>
+                                <!-- di dalam <div class="dropdown-list"> -->
+                                {% for notifikasi in notifications %}
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <div class="mr-3">
+                                        <div class="icon-circle bg-warning">
+                                            <i class="fas fa-bell text-white"></i>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="small text-gray-500">{{ notifikasi.timestamp|date:"F d, Y" }}</div>
+                                        <span class="font-weight-bold">{{ notifikasi.message }}</span>
+                                    </div>
+                                </a>
+                                {% endfor %}
+
+                                
+                                <a class="dropdown-item text-center small text-gray-400" href="{%url 'dashboard:notif'%}">Show All Notifikasi</a>
+                            </div>
+            </li>
+            <div class="topbar-divider d-none d-sm-block"></div>
+
+            <!-- Nav Item - User Information -->
+            <li class="nav-item dropdown no-arrow">
+                <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{user}}</span>
+                    <img class="img-profile rounded-circle"
+                        src="{%static 'img/logo.png'%}">
+                </a>
+                <!-- Dropdown - User Information -->
+                <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                    aria-labelledby="userDropdown">                              
+                    <div class="dropdown-divider"></div>
+                    <form method="post" action="{% url 'form_logout' %}">
+                        {% csrf_token %}
+                        <button type="submit" class="dropdown-item">
+                            <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                            Logout
+                        </button>
+                    </form>
+                </div>
+            </li>
+
+        </ul>
+
+    </nav>
+    <!-- End of Topbar -->
+
+    <!-- Begin Page Content -->
+    <div class="container-fluid">
+        <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+            
+            <div class="carousel-inner">
+              <div class="carousel-item active">
+                <img src="{% static 'img/banner1.png' %}" class="d-block w-100" alt="...">
+              </div>
+              <div class="carousel-item">
+                <img src="{% static 'img/banner2.png' %}" class="d-block w-100" alt="...">
+              </div>
+              <div class="carousel-item">
+                <img src="{% static 'img/banner3.png' %}" class="d-block w-100" alt="...">
+              </div>
+            </div>
+        </div>          
+
+        <!-- Modal -->
+        <div class="modal fade" id="uploadModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Unggah Sertifikat</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                </div>
+                <div class="modal-body">
+                <form id="uploadForm" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <input type="file" name="certificate">
+                </form>
+                </div>
+                <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                <button type="button" class="btn btn-primary" id="uploadButton">Unggah</button>
+                </div>
+            </div>
+            </div>
+        </div>
+
+        <!-- Page Heading -->
+        {% for message in messages %}
+        {% if message.tags == 'success' %}
+            <div id="popup" >
+                <!-- icon -->
+                <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+                    <symbol id="check-circle-fill" fill="currentColor" viewBox="0 0 16 16">
+                        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+                    </symbol>
+                    <symbol id="info-fill" fill="currentColor" viewBox="0 0 16 16">
+                        <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/>
+                    </symbol>                               
+                </svg>
+                
+                <!-- message -->
+                <div class="alert alert-success d-flex align-items-center" role="alert" id="success-message">
+                    <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:"><use xlink:href="#check-circle-fill"/></svg>
+                    <div>
+                        {{ message }}
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        {% endfor %}
+
+        <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 class="h3 mb-0 text-gray-800">ANGGOTA UKM ITC<h1>
+                
+                <a href="{%url 'dashboard:anggota_create'%}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                    class="fas fa-plus fa-sm text-white-50"></i>  Add Data
+                </a> 
+                <a href="" class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm" data-toggle="modal" data-target="#uploadModal"><i
+                    class="fas fa-upload fa-sm text-white-50"></i>  Unggah Sertifikat
+                </a> 
+                <a href="" id="printButton" data-url="{% url 'dashboard:update_cetak_status' %}" data-csrf="{{ csrf_token }}" class="d-none d-sm-inline-block btn btn-sm btn-warning shadow-sm"><i class="fas fa-print fa-sm text-white-50"></i> Print Data</a>
+        </div>
+
+        <div class="row">
+
+            <!-- Area tabel -->
+            <div class="col-xl-12 col-lg-9">
+                <div class="card shadow mb-UKM 4">
+                    <!-- Card Header - Dropdown -->
+                    <div class="card shadow">
+                        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                            <h6 class="m-0 font-weight-bold text-primary">Data Anggota UKM ITC</h6>
+                            <div class="position-relative">
+                                <i class="fas fa-filter translate-middle"></i>
+                                <select class="form-select form-select-sm pl-4 pr-2" aria-label=".form-select-sm example" style="border:none;">
+                                    <option selected>Filtering</option>
+                                    <option value="1">Diverifikasi</option>
+                                    <option value="2">Verifikasi</option>                               
+                                </select>
+                            </div>
+                        </div>
+                        
+                        
+                        <div class="card-body table-responsive">
+                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                    <thead class="text-center">
+                                        <tr>
+                                            <th>NO</th>
+                                            <th>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                                                </div> <br>
+                                            </th>
+                                            <th>NAMA</th>
+                                            <th>L/P</th>
+                                            <th>ALAMAT</th>
+                                            <th>NIM</th>
+                                            <th>PRODI</th>
+                                            <th>SEMESTER</th>                                        
+                                            <th>QR</th>
+                                            <th>ACTION</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>  
+                                        {%for data in datas%}                                                
+                                        <tr data-id="{{ data.id }}" {% if data.diverifikasi %}class="verified"{% endif %}>
+                                            <td class="text-center">{{forloop.counter}}</td>
+                                            <td class="text-center">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" value="{{ data.id }}" id="flexCheckDefault{{ data.id }}" {% if data.cetak %}checked{% endif %} data-url="{% url 'dashboard:update_cetak_status' %}" data-csrf="{{ csrf_token }}">
+
+                                                </div>
+                                            </td>
+                                            <td>
+                                                {{data.nama}}
+                                                {% if data.diverifikasi %}
+                                                    <i class="fas fa-check-circle text-primary"></i>
+                                                {% endif %}
+                                                
+                                            </td>
+                                            <td class="text-center">{{data.jk}}</td>                                                        
+                                            <td>{{data.alamat}}</td>
+                                            <td>{{data.nim}}</td>                                                        
+                                            <td class="text-center">{{data.prodi}}</td>            
+                                            <td class="text-center">{{data.semester}}</td>                                                        
+                                            <td> <img src="{{data.qr.url}}" style="width: 80px;"> </td>                                                        
+                                           
+                                            <td class="text-center">                                                            
+                                                <a href="{% url 'dashboard:anggota_detail' id=data.id %}" class="btn btn-info btn-icon-split mb-1">
+                                                    <span class="icon text-white-25">
+                                                        <i class="fas fa-sharp fa-solid fa-eye"></i>
+                                                    </span>                                                                
+                                                </a>
+                                                <a href="{%url 'dashboard:anggota_update' id=data.id%}" class="btn btn-warning btn-icon-split mb-1 ">
+                                                    <span class="icon text-white-25">
+                                                        <i class="fas fa-edit"></i>
+                                                    </span>                                                                
+                                                </a>
+                                                <a href="{%url 'ITC_APP:anggota_delete' id=data.id%}" class="btn btn-danger btn-icon-split mb-1" onclick="return confirm('yakin ingin menghapus data?')">
+                                                    <span class="icon text-white-25">
+                                                        <i class="fas fa-trash"></i>
+                                                    </span>                                                                
+                                                </a>
+                                                <br>
+                                                <form method="post">
+                                                    {% csrf_token %}
+                                                    <button type="submit" class="btn btn-{% if data.diverifikasi %}secondary{% else %}success{% endif %} btn-icon-split btn-verifikasi" style="width: 90%; padding:6px;" name="anggota_id" onclick="playSound()" value="{{ data.id }}" >
+                                                        {% if data.diverifikasi %}
+                                                            Diverifikasi
+                                                        {% else %}
+                                                            Verifikasi
+                                                        {% endif %}
+                                                    </button>
+                                                </form>
+                                            </td>
+                                        </tr> 
+                                        {%endfor%}   
+                                        <audio id="suara">
+                                            <source src="{% static 'sound/success_sound.mp3'%}" type="audio/mpeg">
+                                            Your browser does not support the audio element.
+                                        </audio>
+                                    </tbody>
+                                </table>
+
+                                <div class="col-sm-12 col-md-7">
+                                    <div class="dataTables_paginate paging_simple_numbers" id="dataTable_paginate">
+                                        {{ datas.paginator.num_pages }} Halaman,
+                                        <span class="text-primary">Halaman {{ datas.number }} dari {{ datas.paginator.num_pages }}</span>
+                                        <ul class="pagination">
+                                            {% if datas.has_previous %}
+                                                <li class="paginate_button page-item previous" id="dataTable_previous">
+                                                    <a href="?page=1{% if search_query %}&cari={{ search_query }}{% endif %}" tabindex="0" class="page-link">First</a>
+                                                </li>
+                                                <li class="paginate_button page-item previous" id="dataTable_previous">
+                                                    <a href="?page={{ datas.previous_page_number }}{% if search_query %}&cari={{ search_query }}{% endif %}" tabindex="0" class="page-link">Previous</a>
+                                                </li>
+                                            {% endif %}
+                                            {% for i in datas.paginator.page_range %}
+                                                {% if datas.number == i %}
+                                                    <li class="paginate_button page-item active">
+                                                        <a href="#" tabindex="0" class="page-link">{{ i }}</a>
+                                                    </li>
+                                                {% else %}
+                                                    <li class="paginate_button page-item">
+                                                        <a href="?page={{ i }}{% if search_query %}&cari={{ search_query }}{% endif %}" tabindex="0" class="page-link">{{ i }}</a>
+                                                    </li>
+                                                {% endif %}
+                                            {% endfor %}
+                                            {% if datas.has_next %}
+                                                <li class="paginate_button page-item next" id="dataTable_next">
+                                                    <a href="?page={{ datas.next_page_number }}{% if search_query %}&cari={{ search_query }}{% endif %}" tabindex="0" class="page-link">Next</a>
+                                                </li>
+                                                <li class="paginate_button page-item next" id="dataTable_next">
+                                                    <a href="?page={{ datas.paginator.num_pages }}{% if search_query %}&cari={{ search_query }}{% endif %}" tabindex="0" class="page-link">Last</a>
+                                                </li>
+                                            {% endif %}
+                                        </ul>
+                                    </div>
+                                </div>
+                        </div>
+                    </div>                               
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- /.container-fluid -->
+
+</div>
+{%endblock konten%}
+
+<!-- SCRIPT -->
+{%block script%}
+
+<!-- carosell -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+      var myCarousel = new bootstrap.Carousel(document.getElementById('carouselExampleIndicators'), {
+        interval: 2000, // Mengatur interval waktu antara pergantian slide (dalam milidetik)
+        wrap: true // Jika diatur ke true, carousel akan kembali ke slide pertama setelah mencapai slide terakhir
+      });
+    });
+</script>
+
+<!-- sound  -->
+<script>
+    function playSound() {
+        var audio = document.getElementById('suara');
+        audio.play();
+    }
+</script>
+
+<!-- tabel -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+    const selectFilter = document.querySelector('.form-select');
+
+    selectFilter.addEventListener('change', function() {
+        const selectedOption = parseInt(this.value);
+        const verified = selectedOption === 1 ? true : false;
+
+        const rows = document.querySelectorAll('#dataTable tbody tr');
+
+        rows.forEach(function(row) {
+            const isVerified = row.classList.contains('verified');
+            row.style.display = verified === isVerified ? 'table-row' : 'none';
+        });
+    });
+});
+
+</script>
+
+<!-- verifikasi -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var button = document.querySelector('.btn-verifikasi');
+
+        button.addEventListener('click', function() {
+            var audio = document.getElementById('suara');
+            audio.play();
+        });
+    });
+</script>
+
+<!-- alert sukses -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        setTimeout(function() {
+            var popup = document.getElementById("popup");
+            if (popup) {
+            popup.style.display = "none";
+            }
+        }, 3000);
+    });
+
+</script>
+
+<!-- click -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+    const checkboxThead = document.getElementById('flexCheckDefault');
+    const checkboxesTbody = document.querySelectorAll('tbody .form-check-input');
+
+    checkboxThead.addEventListener('change', function() {
+        checkboxesTbody.forEach(function(checkbox) {
+            checkbox.checked = checkboxThead.checked;
+        });
+    });
+});
+</script>
+
+<!-- status -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const checkboxesTbody = document.querySelectorAll('tbody .form-check-input');
+
+        checkboxesTbody.forEach(function(checkbox) {
+            checkbox.addEventListener('change', function() {
+                const anggotaId = this.value;
+                const isChecked = this.checked;
+                const url = this.dataset.url;
+                const csrf = this.dataset.csrf;
+
+                // Kirim permintaan Ajax untuk memperbarui status cetak
+                $.ajax({
+                    type: 'POST',
+                    url: url,
+                    data: {
+                        'anggota_id': anggotaId,
+                        'isChecked': isChecked,
+                        csrfmiddlewaretoken: csrf,
+                    },
+                    success: function(data) {
+                        console.log('Status cetak diperbarui');
+                    },
+                    error: function(error) {
+                        console.error('Gagal memperbarui status cetak', error);
+                    },
+                });
+            });
+        });
+    });
+
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+{%endblock script%}

@@ -1,0 +1,31 @@
+/* Tambahkan di dalam file slider.css atau dalam tag <style> di HTML */
+.logos {
+    width: 100%;
+    overflow: hidden;
+  }
+  
+  .logos-slide {
+    display: flex;
+    transition: transform 0.5s ease; /* Animasi transisi */
+  }
+  
+  .slide-item {
+    flex: 0 0 100%; /* Setiap item memenuhi seluruh lebar slider */
+    margin-right: 10px; /* Jarak antar item */
+  }
+  
+  .logos-slide img {
+    width: 50px;
+    height: auto;
+  }
+  
+  /* Tombol navigasi (optional) */
+  .prev-btn, .next-btn {
+    cursor: pointer;
+  }
+  
+  /* Untuk menyembunyikan scrollbar horizontal */
+  .logos::-webkit-scrollbar {
+    display: none;
+  }
+  

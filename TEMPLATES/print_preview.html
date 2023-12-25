@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Print Preview</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h1>Print Preview</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>NAMA</th>
+                <th>JENIS KELAMIN</th>
+                <th>ALAMAT</th>
+                <th>NIM</th>
+                <th>PRODI</th>
+                <th>SEMESTER</th>
+                <th>NOMOR</th>
+                <th>EMAIL</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for data in selected_data %}
+                <tr>
+                    <td>{{ data.nama }}</td>
+                    <td>{{ data.jk }}</td>
+                    <td>{{ data.alamat }}</td>
+                    <td>{{ data.nim }}</td>
+                    <td>{{ data.prodi }}</td>
+                    <td>{{ data.semester }}</td>
+                    <td>{{ data.nomor }}</td>
+                    <td>{{ data.email }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <script>
+        // Automatically open print dialog when the page loads
+        window.onload = function() {
+            window.print();
+        }
+    </script>
+</body>
+</html>

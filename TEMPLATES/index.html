@@ -1,0 +1,55 @@
+{%load static%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UKM ITC</title>
+    <link rel="stylesheet" href="{% static 'css/index.css' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <div id="particles-js">
+    </div>
+    <div class="opal1"></div>
+    <div class="opal2"></div>
+    <div class="container">
+       <img src="{% static 'img/logos.png' %}" alt="">
+       <div class="wraper">
+        <h1>temukan dunia <span class="light1">inovasi</span> di <span class="light1">ujung jari</span></h1>
+        <div class="word">
+             <h1 class="skill">Coding</h1>
+             <h1 class="skill">Design</h1>
+             <h1 class="skill">Video</h1>
+             <h1 class="skill">Jaringan</h1>
+             <h1 class="skill">Robotika</h1>
+         </div>
+       </div>
+       <div class="ket">
+        <p>
+            <span class="light2" >Di UKM ITC</span> membuka pintu bagi eksplorasi tanpa batas. Bersama-sama, kita merangkai Code yang inovatif, merancang solusi dengan Desain yang memukau, dan membangun Jaringan yang menghubungkan impian menjadi kenyataan. Bergabunglah bersama kami, <br>
+            karena di sini, <span class="light2">setiap akhir adalah awal petualangan baru</span>
+        </p>
+       </div>
+       
+
+       <div class="btn">
+        <a href="{%url 'form_login'%}" target="_blank">Sign in</a>
+        <a href="{%url 'register'%}" target="_blank">Sign up</a>
+       </div>
+       
+    </div>
+
+    <!-- script -->
+    <script src="{% static 'js/particles.js' %}"></script>
+    <!-- <script src="{% static 'js/app.js' %}"></script> -->
+    <script>
+        particlesJS.load('particles-js', '{% static "js/particlesjs-config.json"%}', function() {
+            console.log('callback - particles.js config loaded');
+        });
+    </script>
+</body>
+</html>

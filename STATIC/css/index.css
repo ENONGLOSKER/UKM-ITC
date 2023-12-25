@@ -1,0 +1,151 @@
+:root {
+    /* warna */
+    --bg: #011630;
+    --satu: #3C2BFF;
+    --dua: #E232FF;
+    --gradient1: #0BFCF6;
+    --gradient2: #FFB21E;
+    --shadow1: #722FFF;
+    --shadow2: #ff48f6;
+    --blure1:#2411cf;
+    --blure2:#a404bd;
+
+
+    /* font */
+    --el: 'Kanit', sans-serif;
+}
+
+
+*{
+    margin: 0;
+    padding: 0;
+    font-family: var(--el);
+    color: white;
+}
+#particles-js{
+    height: 100vh;
+    background-color: var(--bg);
+    position: absolute;
+}
+.container{
+    position: relative;
+    width: 58%;
+    padding-top: 80px;
+    margin-left: 60px;
+    padding-bottom: 50px;
+    padding-left: 20px;
+    overflow: hidden;
+}
+.container img{
+    width: 200px;
+}
+.container h1{
+    font-size: 60px;
+    font-weight: bold;
+    text-transform: capitalize;   
+}
+
+.container .word{
+    font-size: 60px;
+    position: absolute;
+    left: 55%;
+    top: 49%;
+    overflow: hidden;
+    height: 80px;
+    margin-top: -20px;
+}
+.container .word .skill{
+    animation: spin 8s infinite;
+    background: -webkit-linear-gradient(45deg, var(--dua), var(--gradient2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+@keyframes spin {
+    10%{
+        transform: translateY(-112%);
+    }
+    25%{
+        transform: translateY(-100%);
+    }
+    35%{
+        transform: translateY(-212%);
+    }
+    50%{
+        transform: translateY(-200%);
+    }
+    60%{
+        transform: translateY(-312%);
+    }
+    75%{
+        transform: translateY(-300%);
+    }
+    85%{
+        transform: translateY(-412%);
+    }
+    85%{
+        transform: translateY(-400%);
+    }
+}
+.container .light1{
+    background: -webkit-linear-gradient(25deg, var(--gradient1), var(--gradient2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+.container .ket{
+    width: 55%;
+}
+.container p{
+    font-size: 12px;
+}
+.container .ket p .light2{
+    color: var(--gradient2);
+    font-style: italic;
+  
+}
+
+/* bg opal */
+.opal1{
+    position: absolute;
+    border-radius: 100%;
+    background-color: var(--blure2);
+    width: 380px;
+    height: 380px;
+    top: 25%;
+    left: 50%;
+    filter: blur(100px);
+    -webkit-filter: blur(90px);
+}
+.opal2{
+    position: absolute;
+    border-radius: 100%;
+    background-color: var(--blure1);
+    width: 320px;
+    height: 320px;
+    top: 10%;
+    left: 45%;
+    filter: blur(100px);
+    -webkit-filter: blur(90px);
+}
+
+/* btn */
+.container .btn{
+    margin-top: 30px;
+    display: flex;
+    gap: 15px;
+}
+.container .btn a{
+    padding: 8px 30px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: 400;
+
+}
+.container .btn a:nth-child(1){
+    background-color: var(--satu);
+    box-shadow: 5px 8px 30px var(--shadow1);
+}
+.container .btn a:nth-child(2){
+    background-color: var(--dua);
+    box-shadow: -1px 6px 30px var(--shadow2);
+}
