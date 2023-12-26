@@ -7,8 +7,6 @@ from django.conf import settings
 from django.utils import timezone
 from datetime import date
 
-
-
 class Anggota(models.Model):
     nama     = models.CharField(max_length=255)
     jk       = models.CharField(max_length=255)
